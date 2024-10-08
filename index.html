@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hologram</title>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos generales */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #000; /* Fondo negro */
+            color: #fff; /* Texto blanco */
+            font-family: 'Raleway', sans-serif;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            display: inline-block;
+            margin: 0 15px;
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+            border-radius: 10px;
+            border: 2px solid #fff;
+        }
+
+        li:hover {
+            background-color: #fff; /* Fondo blanco al hacer hover */
+            color: #000; /* Texto negro al hacer hover */
+        }
+
+        /* Estilos de la sección slider */
+        .slider {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 50px;
+            background-color: #111; /* Fondo ligeramente más claro para la sección slider */
+        }
+
+        .slider-text h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            padding: 10px;
+        }
+
+        .slider-img img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 20px;
+            border: 3px solid #fff;
+        }
+
+        /* Estilos para la sección de texto dinámico */
+        .dynamic-text-section {
+            text-align: center;
+            margin-top: 50px;
+            font-size: 2rem;
+        }
+
+        .dynamic-text-section h2 {
+            display: inline-block;
+        }
+
+        #changing-word {
+            color: #00ff00; /* Color verde para resaltar la palabra */
+            border-right: 2px solid #00ff00; /* Efecto del cursor */
+            white-space: nowrap; /* Evita que el texto haga salto de línea */
+            overflow: hidden; /* Oculta el contenido para el efecto de escritura */
+        }
+
+        /* Estilos de la sección mobile */
+        .mobile {
+            text-align: center;
+            padding: 50px 0;
+        }
+
+        .mobile h2 {
+            font-size: 2.5rem;
+        }
+
+        .apps {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .app {
+            width: 195px;
+            transition: transform 0.3s ease;
+            border-radius: 15px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .app:hover {
+            transform: scale(1.2); /* Efecto de zoom al hacer hover */
+        }
+
+        .app img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Estilos para el video */
+        .hologram {
+            display: none; /* Video oculto al inicio */
+            margin-top: 50px;
+            text-align: center; /* Centrar el contenido */
+            justify-content: center;
+        }
+
+        .hologram video {
+            width: 400px;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0px 0px 10px 6px white;
+        }
+
+        .hologram-app {
+            padding: 50px;
+            margin-top: 20px;
+        }
+
+        .hologram-app h2 {
+            font-size: 2rem;
+        }
+
+        .hologram-app p {
+            font-size: 1.2rem;
+            max-width: 500px;
+        }
+
+        /* Responsivo para dispositivos más pequeños */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .slider-text h1 {
+                font-size: 2rem;
+            }
+
+            li {
+                font-size: 1rem;
+                padding: 8px 16px;
+                margin: 0 10px;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .dynamic-text-section {
+                font-size: 1.8rem;
+            }
+
+            .app {
+                width: 120px; /* Ajusta el tamaño en pantallas más pequeñas */
+            }
+
+            .hologram video {
+                width: 80%;
+        margin: auto;
+            }
+
+            .hologram{
+                flex-direction: column;
+            }
+
+            .hologram-app h2 {
+                font-size: 1.8rem;
+            }
+
+            .hologram-app p {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .slider-text h1 {
+                font-size: 1.8rem;
+            }
+
+            li {
+                font-size: 0.9rem;
+                padding: 6px 12px;
+                margin: 0 5px;
+            }
+
+            h2 {
+                font-size: 1.2rem;
+            }
+
+            .dynamic-text-section {
+                font-size: 1.5rem;
+            }
+
+            .app {
+                width: 100px; /* Ajusta aún más el tamaño en pantallas muy pequeñas */
+            }
+        }
+
+
+        .dispositivo {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        padding: 50px;
+        background-color: #111; /* Fondo oscuro similar al slider */
+        position: relative;
+    }
+
+    .dispositivo img {
+        width: 300px;
+        height: auto;
+        border-radius: 15px;
+        margin-bottom: 20px;
+        box-shadow: 0px 0px 10px 6px rgba(255, 255, 255, 0.5);
+    }
+
+    .dispositivo-text h2 {
+        font-size: 2.5rem;
+        color: #fff;
+        opacity: 0;
+        
+    }
+
+    
+    /* Ajustes responsivos */
+    @media (max-width: 768px) {
+        .dispositivo img {
+            width: 200px;
+        }
+
+        .dispositivo-text h2 {
+            font-size: 2rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .dispositivo img {
+            width: 150px;
+        }
+
+        .dispositivo-text h2 {
+            font-size: 1.5rem;
+        }
+    }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Hologram</h1>
+        <ul>
+            <li>Diferente</li>
+            <li>Futuro</li>
+            <li>July II</li>
+        </ul>
+    </header>
+    <section class="slider">
+        <div class="slider-text">
+            <h1>Acercamos la Inteligencia Artificial a todas las personas</h1>
+        </div>
+        <div class="slider-img">
+            <img src="hologram1.png" alt="Holograma">
+        </div>
+    </section>
+    <section class="dynamic-text-section">
+        <h2>Nueva Manera de <span id="changing-word">Aprender</span></h2>
+    </section>
+    <section class="mobile">
+        <h2>Navega en Apps centradas en IA</h2>
+        <div class="apps">
+            <div class="app">
+                <img src="mujer1.png" data-title="Médico Cabecera" data-description="IA conectada a la forma de trabajar de tu médico de cabecera" alt="App Image">
+                <h3>Médico Cabecera</h3>
+            </div>
+            <div class="app">
+                <img src="socialholo.jpg" data-title="Social Hologram" data-description="Conecta con Otros Usuarios de Hologram y experimenta un contacto más real y auténtico" alt="App Image">
+                <h3>Social Hologram</h3>
+            </div>
+            <div class="app">
+                <img src="holobrain.png" data-title="Holo Brain" data-description="Esta Holoapp está pensada para ayudar a personas con Alzheimer a recordar quiénes son de una manera dinámica y sencilla, proporcionando un impacto más ameno." alt="App Image">
+                <h3>Holo Brain</h3>
+            </div>
+            <div class="app">
+                <img src="holoCall.png" data-title="Holo Call" data-description="Haz llamadas con otros usuarios de Hologram" alt="App Image">
+                <h3>Holo Call</h3>
+            </div>
+        </div>
+        <div class="hologram">
+            <video src="mujer1.mp4" autoplay muted loop></video>
+            <div class="hologram-app">
+                <h2></h2>
+                <p></p>
+            </div>
+        </div>
+    </section>
+
+        <section class="dispositivo">
+            <img src="DALL·E 2024-10-05 21.08.19 - A realistic rendering of a compact crescent-shaped device made of polished aluminum, with the central part rotating upwards to reveal a glowing hologr.webp" alt="">
+            <div class="dispositivo-text">
+                <h2>Diseño y Presencia</h2>
+            </div>
+        </section>
+    <script>
+        const words = ['Comunicarte', 'Entender', 'Aprender', 'Expresarte', 'Navegar'];
+        let wordIndex = 0;
+        let letterIndex = 0;
+        let currentWord = '';
+        let deleting = false;
+
+        const changingWord = document.getElementById('changing-word');
+        const apps = document.querySelectorAll('.app');
+        const hologram = document.querySelector('.hologram');
+        const appsSection = document.querySelector('.apps');
+
+        function typeEffect() {
+            if (deleting) {
+                currentWord = words[wordIndex].substring(0, letterIndex--);
+            } else {
+                currentWord = words[wordIndex].substring(0, letterIndex++);
+            }
+
+            changingWord.textContent = currentWord;
+
+            if (!deleting && letterIndex === words[wordIndex].length) {
+                setTimeout(() => deleting = true, 1000);
+            } else if (deleting && letterIndex === 0) {
+                deleting = false;
+                wordIndex = (wordIndex + 1) % words.length;
+            }
+
+            const speed = deleting ? 100 : 150;
+            setTimeout(typeEffect, speed);
+        }
+
+        setTimeout(typeEffect, 1000);
+
+        apps.forEach(app => {
+            app.addEventListener('click', () => {
+                hologram.style.display = 'flex';
+                appsSection.style.display = 'none';
+            });
+        });
+
+
+const hologramTitle = document.querySelector('.hologram-app h2');
+const hologramDescription = document.querySelector('.hologram-app p');
+
+apps.forEach(app => {
+    app.addEventListener('click', () => {
+        const img = app.querySelector('img');
+        hologramTitle.textContent = img.getAttribute('data-title');
+        hologramDescription.textContent = img.getAttribute('data-description');
+        hologram.style.display = 'flex';
+        appsSection.style.display = 'none';
+    });
+});
+
+    </script>
+</body>
+</html>
